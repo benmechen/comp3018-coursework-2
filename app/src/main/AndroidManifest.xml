@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RunningTracker">
         <activity
+            android:name=".NewRun"
+            android:exported="false" />
+        <activity
             android:name=".RunActivity"
             android:exported="false" />
         <activity

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -71,6 +72,12 @@ class MainActivity : AppCompatActivity() {
         }
         binding.rvRunList.adapter = adapter
         binding.rvRunList.layoutManager = GridLayoutManager(this, 2)
+    }
+
+    fun onNewRunClick(view: View) {
+        val intent = Intent(this, NewRun::class.java)
+
+        runLauncher.launch(intent)
     }
 
     private fun onRunClick(run: Run) {
