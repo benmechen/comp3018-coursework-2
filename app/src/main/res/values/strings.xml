@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Running Tracker</string>
+    <string name="new_run">New Run</string>
+    <string name="run_name">Name</string>
+    <string name="run_save_btn">Save</string>
+    <string name="run_rating_label">Rating</string>
 </resources>
