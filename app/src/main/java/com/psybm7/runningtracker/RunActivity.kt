@@ -4,17 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.psybm7.runningtracker.databinding.ActivityRunBinding
-import com.psybm7.runningtracker.dto.Run
+import com.psybm7.runningtracker.run.Run
 import java.time.Duration
 
 class RunActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRunBinding
 
     private lateinit var run: Run
+
+    companion object {
+        const val RUN = "com.psybm7.runningtracker.RunActivity.UPDATE_RUN_REPLY"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +39,7 @@ class RunActivity : AppCompatActivity() {
 
     fun onSaveClick(view: View) {
         val bundle = Bundle()
-        bundle.putSerializable("run", this.run)
+        bundle.putSerializable(RUN, this.run)
 
         val intent = Intent()
         intent.putExtras(bundle)

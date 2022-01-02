@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         android:orientation="vertical"
-        tools:context=".NewRun">
+        tools:context=".NewRunActivity">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -32,28 +32,27 @@
                 app:tint="@color/primary" />
 
             <ImageButton
-                android:id="@+id/ibPause"
+                android:id="@+id/ibPlayPause"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:onClick="onPauseClick"
+                android:onClick="onPlayPauseClick"
                 app:srcCompat="@android:drawable/ic_media_pause"
                 app:tint="@color/primary" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="88dp"
+        <Chronometer
+            android:id="@+id/vtTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="00:00:00"
-            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="24" />
 
         <TextView
             android:id="@+id/textView3"
@@ -72,13 +71,13 @@
             android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="124dp"
             android:text="500m"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/vtTimer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

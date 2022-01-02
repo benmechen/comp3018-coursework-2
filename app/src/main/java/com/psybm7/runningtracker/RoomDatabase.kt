@@ -1,0 +1,60 @@
+package com.psybm7.runningtracker
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.psybm7.runningtracker.run.Run
+import com.psybm7.runningtracker.run.RunDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import java.time.Instant
+
+@Database(entities = [Run::class], version = 1)
+@TypeConverters(Converters::class)
+public abstract class RunRoomDatabase : RoomDatabase() {
+    abstract fun runDao(): RunDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: RunRoomDatabase? = null
+
+        fun getDatabase(context: Context, scope: CoroutineScope): RunRoomDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    RunRoomDatabase::class.java,
+                    "runDatabase"
+                ).addCallback(RunRoomDatabaseCallback(scope))
+                    .build()
+                this.INSTANCE = instance
+
+                instance
+            }
+        }
+    }
+
+    private class RunRoomDatabaseCallback(private val scope: CoroutineScope) :
+        RoomDatabase.Callback() {
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
+            INSTANCE?.let { database ->
+                scope.launch {
+                    populate(database.runDao())
+                }
+            }
+        }
+
+        suspend fun populate(runDao: RunDao) {
+            runDao.deleteAll()
+
+            // Insert example runs
+            var run = Run(1, "Test Run", Instant.now(), Instant.now(), 5, 7.6, 4f)
+            runDao.insert(run)
+            run = Run(2, "Test Run #2", Instant.now(), Instant.now(), 4, 6.5, 3f)
+            runDao.insert(run)
+        }
+    }
+}
