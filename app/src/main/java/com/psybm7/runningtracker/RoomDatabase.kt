@@ -1,10 +1,8 @@
 package com.psybm7.runningtracker
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.psybm7.runningtracker.run.Run
 import com.psybm7.runningtracker.run.RunDao
@@ -12,9 +10,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.Instant
 
-@Database(entities = [Run::class], version = 1)
+@Database(
+    entities = [Run::class],
+    version = 6,
+//    autoMigrations = [
+//        AutoMigration(from = 1, to = 2)
+//    ]
+)
 @TypeConverters(Converters::class)
-public abstract class RunRoomDatabase : RoomDatabase() {
+abstract class RunRoomDatabase : RoomDatabase() {
     abstract fun runDao(): RunDao
 
     companion object {
@@ -27,7 +31,9 @@ public abstract class RunRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     RunRoomDatabase::class.java,
                     "runDatabase"
-                ).addCallback(RunRoomDatabaseCallback(scope))
+                )
+                    .addCallback(RunRoomDatabaseCallback(scope))
+                    .fallbackToDestructiveMigration()
                     .build()
                 this.INSTANCE = instance
 
@@ -51,10 +57,10 @@ public abstract class RunRoomDatabase : RoomDatabase() {
             runDao.deleteAll()
 
             // Insert example runs
-            var run = Run(1, "Test Run", Instant.now(), Instant.now(), 5, 7.6, 4f)
-            runDao.insert(run)
-            run = Run(2, "Test Run #2", Instant.now(), Instant.now(), 4, 6.5, 3f)
-            runDao.insert(run)
+//            var run = Run("Test Run", Instant.now(), Instant.now(), 5, 7.6, 4f)
+//            runDao.insert(run)
+//            run = Run("Test Run #2", Instant.now(), Instant.now(), 4, 6.5, 3f)
+//            runDao.insert(run)
         }
     }
 }

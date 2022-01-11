@@ -11,11 +11,17 @@
         android:orientation="vertical"
         tools:context=".RunActivity">
 
-        <com.google.android.gms.maps.MapView
+<!--        <com.google.android.gms.maps.MapView-->
+<!--            android:id="@+id/mvRoute"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            tools:ignore="SpeakableTextPresentCheck" />-->
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/mvRoute"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:context="com.psybm7.runningtracker.RunActivity" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,8 +42,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:drawableTint="@color/primary_light"
                 android:ems="10"
+                android:foregroundTint="@color/primary_light"
                 android:inputType="textPersonName"
+                android:minHeight="48dp"
                 android:text="@string/run_name"
                 android:textColor="@color/white"
                 android:textColorHighlight="@color/primary_dark"
@@ -63,6 +72,8 @@
                 android:id="@+id/rbRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:foregroundTint="@color/primary_light"
+                android:indeterminateTint="@color/background"
                 android:numStars="5"
                 android:progressBackgroundTint="@color/background_light"
                 android:progressTint="@color/primary_light"
@@ -78,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/run_rating_label"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/rbRating"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -108,7 +120,7 @@
                     app:cardElevation="10dp">
 
                     <TextView
-                        android:id="@+id/tvCardDuration"
+                        android:id="@+id/tvCardDistance"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -151,7 +163,7 @@
                     app:cardElevation="10dp">
 
                     <TextView
-                        android:id="@+id/tvCardDistance"
+                        android:id="@+id/tvCardDuration"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"

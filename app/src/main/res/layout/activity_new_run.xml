@@ -55,24 +55,23 @@
             tools:targetApi="24" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tvRunPace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="7'9&quot;"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/tvRunDistance" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tvRunDistance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="124dp"
-            android:text="500m"
+            android:text="@string/_0m"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,19 +1,27 @@
 package com.psybm7.runningtracker.run
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.psybm7.runningtracker.tracker.dto.Track
 import java.io.Serializable
 import java.time.Instant
+import kotlin.math.round
 
 @Entity(tableName = "runs")
-data class Run(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val name: String,
+class Run(
+    var name: String,
     val start: Instant,
-    val end: Instant,
+    val duration: Long,
     val distance: Int,
-    val pace: Double,
-    val rating: Float) : Serializable {
+    var rating: Float?,
+    var track: Track?
+) : Serializable {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+    var pace: Double = 0.0
+
+    init {
+        if (track != null)
+            this.pace = track!!.pace
+    }
 }

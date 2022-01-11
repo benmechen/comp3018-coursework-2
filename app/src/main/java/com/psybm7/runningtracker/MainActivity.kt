@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             // Save new run
             val data: Intent? = result.data
-            val run = data?.extras?.getSerializable(NewRunActivity.EXTRA_REPLY) as? Run?
+            val run = data?.extras?.getSerializable(NewRunActivity.RUN) as? Run?
 
             if (run != null) {
                 this.runViewModel.insert(run)
@@ -69,6 +70,10 @@ class MainActivity : AppCompatActivity() {
             }
             binding.rvRunList.adapter = adapter
             binding.rvRunList.layoutManager = GridLayoutManager(this, 2)
+
+            binding.tvCardAveragePace.text = HelperService.formatPace(this.calculateAveragePace(runs))
+            binding.tvCardTotalDistance.text = HelperService.formatDistance(this.calculateTotalDistance(runs))
+            binding.tvCardTotalDuration.text = HelperService.formatDuration(this.calculateTotalDuration(runs))
         })
     }
 
@@ -87,5 +92,20 @@ class MainActivity : AppCompatActivity() {
         intent.putExtras(bundle)
 
         runLauncher.launch(intent)
+    }
+
+    private fun calculateTotalDistance(runs: List<Run>): Int {
+        val distances = runs.map { run -> run.distance }
+        return distances.sum();
+    }
+
+    private fun calculateTotalDuration(runs: List<Run>): Long {
+        val durations = runs.map { run -> run.duration }
+        return durations.sum();
+    }
+
+    private fun calculateAveragePace(runs: List<Run>): Double {
+        val paces = runs.mapNotNull { if (it.pace.isInfinite() || it.pace.isNaN()) null else it.pace }
+        return paces.average();
     }
 }
