@@ -8,7 +8,7 @@ import com.psybm7.runningtracker.tracker.dto.Track
 /**
  * Listener for location updates
  */
-class LocationTracker: LocationListener {
+class LocationTracker : LocationListener {
     /**
      * Track containing points tracked to
      */

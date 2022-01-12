@@ -4,12 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -38,17 +37,18 @@ class MainActivity : AppCompatActivity() {
      *
      * When a result is returned, update the view model with the new brush config.
      */
-    private val newRunLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // Save new run
-            val data: Intent? = result.data
-            val run = data?.extras?.getSerializable(NewRunActivity.RUN) as? Run?
+    private val newRunLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Save new run
+                val data: Intent? = result.data
+                val run = data?.extras?.getSerializable(NewRunActivity.RUN) as? Run?
 
-            if (run != null) {
-                this.runViewModel.insert(run)
+                if (run != null) {
+                    this.runViewModel.insert(run)
+                }
             }
         }
-    }
 
     /**
      * Launch `RunActivity` and provide a handler for the
@@ -56,17 +56,18 @@ class MainActivity : AppCompatActivity() {
      *
      * When a result is returned, update the view model with the new brush config.
      */
-    private val runLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // Update existing run
-            val data: Intent? = result.data
-            val run = data?.extras?.getSerializable(RunActivity.RUN) as? Run?
+    private val runLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Update existing run
+                val data: Intent? = result.data
+                val run = data?.extras?.getSerializable(RunActivity.RUN) as? Run?
 
-            if (run != null) {
-                this.runViewModel.update(run)
+                if (run != null) {
+                    this.runViewModel.update(run)
+                }
             }
         }
-    }
 
     /**
      * Launch permissions request window
@@ -99,9 +100,12 @@ class MainActivity : AppCompatActivity() {
             binding.rvRunList.adapter = adapter
             binding.rvRunList.layoutManager = GridLayoutManager(this, 2)
 
-            binding.tvCardAveragePace.text = HelperService.formatPace(this.calculateAveragePace(runs))
-            binding.tvCardTotalDistance.text = HelperService.formatDistance(this.calculateTotalDistance(runs))
-            binding.tvCardTotalDuration.text = HelperService.formatDuration(this.calculateTotalDuration(runs))
+            binding.tvCardAveragePace.text =
+                HelperService.formatPace(this.calculateAveragePace(runs))
+            binding.tvCardTotalDistance.text =
+                HelperService.formatDistance(this.calculateTotalDistance(runs))
+            binding.tvCardTotalDuration.text =
+                HelperService.formatDuration(this.calculateTotalDuration(runs))
         })
     }
 
@@ -110,8 +114,10 @@ class MainActivity : AppCompatActivity() {
      * Check permissions, navigate if already granted or show popup if not
      */
     fun onNewRunClick(view: View) {
-        val fineLocationGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        val coarseLocationGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        val fineLocationGranted =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val coarseLocationGranted =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
 
         // If we don't already have permissions, request from user and navigate once granted
         if (fineLocationGranted != PackageManager.PERMISSION_GRANTED || coarseLocationGranted != PackageManager.PERMISSION_GRANTED) {
@@ -155,7 +161,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun calculateTotalDistance(runs: List<Run>): Int {
         val distances = runs.map { run -> run.distance }
-        return distances.sum();
+        return distances.sum()
     }
 
     /**
@@ -165,7 +171,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun calculateTotalDuration(runs: List<Run>): Long {
         val durations = runs.map { run -> run.duration }
-        return durations.sum();
+        return durations.sum()
     }
 
     /**
@@ -175,7 +181,8 @@ class MainActivity : AppCompatActivity() {
      * @return Average Pace
      */
     private fun calculateAveragePace(runs: List<Run>): Double {
-        val paces = runs.mapNotNull { if (it.pace.isInfinite() || it.pace.isNaN()) null else it.pace }
-        return paces.average();
+        val paces =
+            runs.mapNotNull { if (it.pace.isInfinite() || it.pace.isNaN()) null else it.pace }
+        return paces.average()
     }
 }

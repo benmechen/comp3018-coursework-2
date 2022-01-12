@@ -145,7 +145,7 @@ class NewRunActivity : AppCompatActivity() {
         this.service?.play();
     }
 
-//    Button handlers
+    //    Button handlers
     fun onStopClick(view: View) {
         this.service?.stop()
     }

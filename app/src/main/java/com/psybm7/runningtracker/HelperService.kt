@@ -53,7 +53,7 @@ class HelperService {
         fun formatDistance(distance: Int): String {
             val kilometers = this.metersToKilometers(distance.toFloat())
             if (kilometers > 1) return kilometers.toString().take(4).plus(" km")
-            return distance.toString().plus(" m");
+            return distance.toString().plus(" m")
         }
 
         /**

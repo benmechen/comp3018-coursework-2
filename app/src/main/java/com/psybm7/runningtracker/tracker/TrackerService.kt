@@ -171,7 +171,7 @@ class TrackerService : Service(), TrackerSubscriber {
                 2,
                 2f,
                 this.locationTracker
-            );
+            )
         } catch (e: SecurityException) {
             Log.e("NewRunActivity", e.toString())
         }
@@ -215,8 +215,10 @@ class TrackerService : Service(), TrackerSubscriber {
      * Add a Play or Pause button depending on the state
      */
     private fun buildNotification(distance: String, duration: String): Notification {
-        val action = if (state.value == NewRunState.RUNNING) TRACKER_RECEIVER_PAUSE else TRACKER_RECEIVER_PLAY
-        val buttonText = if (state.value == NewRunState.RUNNING) R.string.notification_pause else R.string.notification_play
+        val action =
+            if (state.value == NewRunState.RUNNING) TRACKER_RECEIVER_PAUSE else TRACKER_RECEIVER_PLAY
+        val buttonText =
+            if (state.value == NewRunState.RUNNING) R.string.notification_pause else R.string.notification_play
 
         val playPauseIntent = Intent(action)
         val playPausePendingIntent = PendingIntent.getBroadcast(this, 0, playPauseIntent, 0)
