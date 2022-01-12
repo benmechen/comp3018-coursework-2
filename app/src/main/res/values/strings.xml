@@ -16,4 +16,6 @@
     <string name="_0m">0m</string>
     <string name="average_stats">Average Stats</string>
     <string name="previous_runs">Previous Runs</string>
+    <string name="notification_play">START</string>
+    <string name="notification_pause">PAUSE</string>
 </resources>

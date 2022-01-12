@@ -5,6 +5,10 @@ import com.psybm7.runningtracker.run.RunRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
+/**
+ * Custom [Application] to connect to the database
+ * in a Coroutine Scope
+ */
 class RunsApplication : Application() {
     private val applicationScope = CoroutineScope(SupervisorJob())
 

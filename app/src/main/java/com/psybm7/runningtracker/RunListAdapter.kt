@@ -10,6 +10,9 @@ import java.util.*
 
 class RunListAdapter(private val runs: List<Run>, private val onItemClicked: (Run) -> Unit) :
     RecyclerView.Adapter<RunListAdapter.ViewHolder>() {
+    /**
+     * Set Card content details to values from Run
+     */
     class ViewHolder(view: View, private val onItemClicked: (Int) -> Unit) :
         RecyclerView.ViewHolder(view) {
         private val tvRunName: TextView = view.findViewById(R.id.tvRunName)
@@ -27,6 +30,9 @@ class RunListAdapter(private val runs: List<Run>, private val onItemClicked: (Ru
         }
     }
 
+    /**
+     * Display Runs and set up click listener to pass to parent
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val runCardView =
             LayoutInflater.from(parent.context).inflate(R.layout.run_card, parent, false)

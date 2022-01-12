@@ -12,11 +12,19 @@ import kotlinx.coroutines.flow.Flow
 class RunRepository(private val runDao: RunDao) {
     val runs: Flow<List<Run>> = runDao.getRuns()
 
+    /**
+     * Save a new Run to the database
+     * @param run Run values
+     */
     @WorkerThread()
     suspend fun insert(run: Run) {
         runDao.insert(run)
     }
 
+    /**
+     * Update an existing Run in the database
+     * @param run New run values
+     */
     @WorkerThread()
     suspend fun update(run: Run) {
         Log.d("RunRepository", "Updating run")

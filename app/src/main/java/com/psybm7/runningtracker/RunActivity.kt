@@ -22,15 +22,30 @@ import java.time.Duration
 import java.time.temporal.TemporalUnit
 import java.util.concurrent.TimeUnit
 
+/**
+ * RunActivity to display a recorded Run
+ */
 class RunActivity : AppCompatActivity(), OnMapReadyCallback {
+    /**
+     * Binding to update the UI
+     */
     private lateinit var binding: ActivityRunBinding
 
+    /**
+     * Run to display
+     */
     private lateinit var run: Run
 
     companion object {
         const val RUN = "com.psybm7.runningtracker.RunActivity.UPDATE_RUN_REPLY"
     }
 
+    /**
+     * 1. Set up Data Binding
+     * 2. Deserialise Run
+     * 3. Set UI components to Run values
+     * 4. Connect map to this Activity
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,6 +64,10 @@ class RunActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment?.getMapAsync(this)
     }
 
+    /**
+     * When map has initialised, draw the start
+     * point for each segment on the map
+     */
     override fun onMapReady(map: GoogleMap) {
         if (this.run.track?.points?.isEmpty()!!) return
 
@@ -70,6 +89,10 @@ class RunActivity : AppCompatActivity(), OnMapReadyCallback {
             map.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 50))
     }
 
+    /**
+     * When saving a Run, get the current values
+     * and pass to parent Activity for saving
+     */
     fun onSaveClick(view: View) {
         run.rating = binding.rbRating.rating
         run.name = binding.txRunName.text.toString()

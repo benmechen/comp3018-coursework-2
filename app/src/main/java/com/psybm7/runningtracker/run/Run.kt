@@ -7,6 +7,10 @@ import java.io.Serializable
 import java.time.Instant
 import kotlin.math.round
 
+/**
+ * Run entity.
+ * Saves Runs in a local table
+ */
 @Entity(tableName = "runs")
 class Run(
     var name: String,

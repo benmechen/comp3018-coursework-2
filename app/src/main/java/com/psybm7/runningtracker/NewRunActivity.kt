@@ -23,23 +23,33 @@ import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.round
 
+/**
+ * Tracking states
+ */
 enum class NewRunState {
     RUNNING,
     PAUSED,
     STOPPED
 }
 
+/**
+ * Track a run
+ */
 class NewRunActivity : AppCompatActivity() {
+    /**
+     * Binding to allow Activity to update UI
+     */
     private lateinit var binding: ActivityNewRunBinding
 
+    /**
+     * Run start time
+     */
     private lateinit var start: Instant
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
-            if (granted.all { permission -> permission.value == false }) finish()
-        }
 
-
+    /**
+     * Bound service to track activity in the background
+     */
     private var service: TrackerService? = null
 
     /**
@@ -68,19 +78,16 @@ class NewRunActivity : AppCompatActivity() {
         const val RUN = "com.psybm7.runningtracker.NewRunActivity.NEW_RUN_REPLY"
     }
 
+    /**
+     * 1. Set up DataBinding
+     * 2. Set start time
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_run)
 
         start = Instant.now()
-
-        this.requestPermissionLauncher.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-        )
     }
 
     override fun onStart() {
@@ -94,7 +101,7 @@ class NewRunActivity : AppCompatActivity() {
     }
 
     /**
-     * Start the MP3Service as a Foreground Service
+     * Start the [TrackerService] as a Foreground Service
      * Bind to it to receive updates
      */
     private fun bindService() {
@@ -115,7 +122,7 @@ class NewRunActivity : AppCompatActivity() {
 
     /**
      * When bound to the service,
-     * register observers on it's states
+     * register observers on it's states and start tracking
      */
     private fun onBound() {
         this.service?.state?.value = NewRunState.PAUSED
@@ -143,6 +150,9 @@ class NewRunActivity : AppCompatActivity() {
         this.service?.stop()
     }
 
+    /**
+     * On Play/Pause toggle, call alternate function
+     */
     fun onPlayPauseClick(view: View) {
         if (this.service?.state?.value == NewRunState.RUNNING) {
             this.service?.pause()
@@ -152,16 +162,26 @@ class NewRunActivity : AppCompatActivity() {
     }
 
 //    Callbacks
+    /**
+     * Callback to update UI when running starts or restarts
+     */
     private fun onRunPlay() {
         this.binding.vtTimer.start()
         this.binding.ibPlayPause.setImageResource(android.R.drawable.ic_media_pause)
     }
 
+    /**
+     * Callback to update UI when running pauses
+     */
     private fun onRunPause() {
         this.binding.vtTimer.stop()
         this.binding.ibPlayPause.setImageResource(android.R.drawable.ic_media_play)
     }
 
+    /**
+     * Callback to update UI when running stops,
+     * and send the Run back to the parent Activity to handle
+     */
     private fun onRunStop() {
         this.binding.vtTimer.stop()
 
@@ -188,6 +208,9 @@ class NewRunActivity : AppCompatActivity() {
     }
 
 //    Helpers
+    /**
+     * Use the current time and date to generate a name for the run
+     */
     private fun generateName(date: Instant): String {
         val formatter = DateTimeFormatter
             .ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -197,6 +220,13 @@ class NewRunActivity : AppCompatActivity() {
         return formatter.format(date)
     }
 
+    /**
+     * Get the total duration from a time string
+     * Android's Chronometer does not handle durations well, so this
+     * is an alternative method to get the total duration as displayed to the user
+     * @param duration HH:MM:SS format time string
+     * @return Total duration in milliseconds
+     */
     private fun getElapsedMilliseconds(duration: String): Long {
         val parts = duration.split(":")
 

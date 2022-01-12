@@ -11,6 +11,10 @@ import androidx.room.Room
 import com.psybm7.runningtracker.run.RunDao
 import java.lang.IllegalArgumentException
 
+/**
+ * Content Provider to allow external
+ * applications to query saved Runs
+ */
 class RunContentProvider : ContentProvider() {
     companion object {
         private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
@@ -33,6 +37,9 @@ class RunContentProvider : ContentProvider() {
 
     private var runDao: RunDao? = null
 
+    /**
+     * Connect to database
+     */
     override fun onCreate(): Boolean {
         database = Room.databaseBuilder(context!!, RunRoomDatabase::class.java, "runs").build()
 
